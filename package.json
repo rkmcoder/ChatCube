@@ -1,0 +1,16 @@
+{
+  "name": "ChatCube",
+  "description": "hello world test app",
+  "version": "0.0.1",
+  "private": true,
+  "author": {
+    "name": "Rakesh",
+    "email": "rkm.bitmesra@gmail.com",
+    "url": "http://www.google.com/"
+  },
+  "dependencies": {
+    "express": "^4.15.3",
+    "jade": "^1.11.0",
+    "socket.io": "^2.0.3"
+  }
+}
