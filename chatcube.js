@@ -1,20 +1,21 @@
 var express = require("express");
 var http = require("http");
 var app = express();
-var port = 3000;
-var server = http.createServer(app).listen(port);
-
+var server = http.createServer(app).listen(3000);
 var io = require("socket.io")(server);
 
 app.use(express.static("./public"));
 
 io.on("connection",function(socket){
     
-    socket.emit("message","Welcome to Chat Cube")
-
+    console.log("fucntion called");
     socket.on("chat", function(message) {
     	socket.broadcast.emit("message", message);
     });
+    
+    console.log("fucntion called 2 times");
+  
+    socket.emit("message","Welcome to Chat Cube");
 
 });
 
