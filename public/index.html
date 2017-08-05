@@ -1,23 +1,67 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta name="viewport" content="minimum-scale=1.0, width=device-width, maximum-scale=1.0, user-scalable=no"/>
-    <meta charset="utf-8">
+	<link rel = "stylesheet" type = "text/css" href="style.css"/>
+    <script type="text/javascript" src="js/socket.io-client.js"></script>
     <title>Chat Cube</title>
-    <link rel="stylesheet" href="./css/style.css"/>
+    
 </head>
 <body>
 
 <h1>Chat Cube</h1>
 <div class="messages"></div>
 
-<form action="javascript:void(0)">
+<form id="f1" action="javascript:void(0)" onsubmit="SumbitFunc()">
     <label for="message">&gt;</label>
     <input type="text" id="message" required autofocus />
-
+    <input id="s1" type="submit" value="Submit">
 </form>
-<script src="js/socket.io-client.min.js"></script>
-<script src="js/socket.io-client.js"></script>
+
+<style type="text/css">
+h1{
+	text-align: center;
+}
+</style>
+
+
+<script>
+
+var socket = io("http://localhost:3000");
+
+
+socket.on("disconnect", function() {
+	setTitle("Disconnected");
+});
+
+socket.on("connect", function() {
+	setTitle("Connected to Chat Cube");
+});
+
+socket.on("message", function(message) {
+	printMessage(message);
+});
+
+
+
+function SumbitFunc () {
+    console.log("Function called");
+    var input = document.getElementById("message");
+    printMessage(input.value);
+    socket.emit("chat", input.value);
+    input.value = '';
+};
+
+function setTitle(title) {
+    document.querySelector("h1").innerHTML = title;
+}
+
+function printMessage(message) {
+    var p = document.createElement("p");
+    p.innerText = message;
+    document.querySelector("div.messages").appendChild(p);
+}
+
+</script>
 
 
 
