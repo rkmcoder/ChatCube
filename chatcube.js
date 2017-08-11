@@ -16,11 +16,11 @@ console.log("Server running...on port 3000");
 io.sockets.on('connect', function(socket){
     socket.emit("message","Welcome to Chat Cube");
     connections.push(socket);
-    console.log('No. of users connected %s connections.length');
+    console.log('No. of users connected %s connections.length', connections.length);
 });
 
 io.sockets.on('disconnect',function(socket){
     connections.splice(connections.indexOf(socket),1);
-    console.log('No. of users still connected %s connections.length');
+    console.log('No. of users still connected %s connections.length', connections.length);
 });
 
