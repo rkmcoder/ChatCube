@@ -1,67 +1,54 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<link rel = "stylesheet" type = "text/css" href="style.css"/>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link rel = "stylesheet" type = "text/css" href="./css/style.css"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
     <script type="text/javascript" src="http://localhost:3000/socket.io/socket.io.js"></script>
+    <script type="text/javascript" src="./js/socket.io-client.js"></script>
+
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+
     <title>Chat Cube</title>
     
 </head>
 <body>
 
-<h1>Chat Cube</h1>
-<div class="messages"></div>
+<div class="container">
+    <div class="page-header">
+         <h1>Chat Cube</h1>
+    </div>
 
-<form id="f1" action="javascript:void(0)" onsubmit="SumbitFunc()">
-    <label for="message">&gt;</label>
-    <input type="text" id="message" required autofocus />
-    <input id="s1" type="submit" value="Submit">
-</form>
-
-<style type="text/css">
-h1{
-	text-align: center;
-}
-</style>
-
-
-<script>
-
-var socket = io();
-
-
-socket.on("disconnect", function() {
-	setTitle("Disconnected");
-});
-
-socket.on("connect", function() {
-	setTitle("Connected to Chat Cube");
-});
-
-socket.on("message", function(message) {
-	printMessage(message);
-});
+    <div class="row">
+        <div class="col-md-4">
+            <div class="well">
+                <h3>Online Users</h3>
+                <ul class="list-group" id="users"></ul>
+            </div>
+        </div>
+        <div class="col-md-8">
+            <div class="chat" id = "chat">
+            </div>
+            <div>
+                <form id="f1" action="javascript:void(0)" onsubmit="SumbitFunc()">
+                    <textarea class="form-control" id="message" required autofocus></textarea>
+                    <input class="btn btn-primary" id="s1" type="submit" value="Submit">
+                </form>
+            </div>
+        </div>
+            
+        </div>
+    </div>
+</div>
 
 
 
-function SumbitFunc () {
-    console.log("Function called");
-    var input = document.getElementById("message");
-    printMessage(input.value);
-    socket.emit("chat", input.value);
-    input.value = '';
-};
-
-function setTitle(title) {
-    document.querySelector("h1").innerHTML = title;
-}
-
-function printMessage(message) {
-    var p = document.createElement("p");
-    p.innerText = message;
-    document.querySelector("div.messages").appendChild(p);
-}
-
-</script>
 
 
 

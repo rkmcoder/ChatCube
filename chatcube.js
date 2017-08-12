@@ -18,7 +18,7 @@ io.sockets.on('connect', function(socket){
 	socket.on("message", function(message) {
     	socket.broadcast.emit("message", message);
     });
-    socket.emit("message","Welcome to Chat Cube");
+    //socket.emit("message","You are in chatcube");
     connections.push(socket);
      console.log('No. of users connected %s', connections.length);
 });

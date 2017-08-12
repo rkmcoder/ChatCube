@@ -1,11 +1,14 @@
 var socket = io();
+var newChat;
 
 socket.on("disconnect", function() {
     setTitle("Disconnected");
 });
 
 socket.on("connect", function() {
-    setTitle("Connected to Chat Cube");
+    setTitle("Welcome to Chat Cube");
+     //document.querySelector("div.chat");
+    newChat = $('#chat');
 });
 
 socket.on("message", function(message) {
@@ -15,7 +18,6 @@ socket.on("message", function(message) {
 
 
 function SumbitFunc () {
-    console.log("Function called");
     var input = document.getElementById("message");
     printMessage(input.value);
     socket.emit("chat", input.value);
@@ -29,5 +31,5 @@ function setTitle(title) {
 function printMessage(message) {
     var p = document.createElement("p");
     p.innerText = message;
-    document.querySelector("div.messages").appendChild(p);
+    newChat.append('<div class="well">' + message + '</div>');
 }
