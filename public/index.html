@@ -8,12 +8,13 @@
 	<link rel = "stylesheet" type = "text/css" href="./css/style.css"/>
     <link rel="stylesheet" href="/css/bootstrap.css">
 
-    <script type="text/javascript" src="http://localhost:3000/socket.io/socket.io.js"></script>
-    <script type="text/javascript" src="./js/socket.io-client.js"></script>
-
     <script type="text/javascript" src="./js/bootstrap js/bootstrap.min.js"></script>
     <script type="text/javascript" src="./jquery/jquery-3.2.1.min.js"></script>
 
+   
+    <script type="text/javascript" src="http://localhost:3000/socket.io/socket.io.js"></script>
+     <script type="text/javascript" src="./js/socket.io-client.js"></script>
+    
 
     <title>Chat Cube</title>
     
@@ -21,19 +22,17 @@
 <body>
 
 <div class="container">
-    <div class="page-header">
+    <div class="page-header bg-primary col-lg-12 col-md-12 col-sm-12 col-xs-12">
          <h1>Chat Cube</h1>
     </div>
 
     <div id="loginArea" class="row">
-        <div class="col-md-12 ">
+        <div class="col-md-4 col-md-offset-4">
         <form id="loginForm" action="javascript:void(0)" onsubmit="loginFunc()">
-            <div class="form-group">
-                <label>Username</label>
-                <input id="username" class="form-control" type="text" name="username"><br/>
-                <label>Password</label>
-                <input id="password" class="form-control" type="text" name="password"><br/>
-                <input id="login" class="btn btn-primary" type="submit" name="login" value="Login">
+            <div class="form-group text-center">
+                <input id="username" class="form-control" type="text" name="username" placeholder="Username"><br/>
+                <input id="password" class="form-control" type="password" name="password" placeholder="Password"><br/>
+                <input id="login" class="btn btn-lg btn-primary" type="submit" name="login" value="Login">
             </div>
         </form>
         </div>
@@ -42,16 +41,24 @@
     <div id="loggedInArea" class="row">
         <div id="usersArea" class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
             <div class="well">
-                <h4>Online Users</h4>
+                <h3>Online Users</h3>
                 <ul id="users" class="list-group" ></ul>
             </div>
         </div>
+
         <div id="chatArea" class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
             <div id="chat" class="chat" ></div>
-                <form id="msgForm" action="javascript:void(0)" onsubmit="SumbitFunc()">
-                    <textarea id="msgTextArea" class="form-control" required autofocus></textarea>
-                    <input class="btn btn-primary" id="send" type="submit" value="Submit">
+
+                <form id="msgForm" class="form-group" method="post" onsubmit="submitFunc()" action="javascript:void(0)">
+                 <div class="form-group">
+                    <input id="msgTextArea" class="form-control" required autofocus></input>
+                  </div>
+                  <div>
+                    <input class="btn btn-primary pull-right" id="send" type="submit" value="Send">
+                  </div>
+                 
                 </form>
+
             </div>
         </div>   
     </div>

@@ -24,6 +24,7 @@ socket.on("connect", function() {
     $users = $('#users');
     $username = $('#username');
     $password = $('#password');
+
 });
 
 socket.on("new message", function(data) {
@@ -34,7 +35,6 @@ socket.on('get users',function(data){
     var html ='';
     for(i=0; i<data.length; i++){
         html += '<li class="list-group-tems">'+ data[i] + '</li>'
-        console.log(html);
     }
     $users.html(html);
 
@@ -43,7 +43,8 @@ socket.on('get users',function(data){
 
 function loginFunc(){
         
-            if($username != ''){
+            //if($username.val() != '' && $password.val() == 'welcome'){
+                 if(true){
                 socket.emit('new user',$username.val());
                 $loggedInArea.show();
                 $loginArea.hide();
@@ -52,15 +53,14 @@ function loginFunc(){
                 alert("Wrong password!");
         
     $username.val('');
+    $password.val('');
     
 };
 
-
-function SumbitFunc () {
+function submitFunc(){
     socket.emit('chat', $msgTextArea.val());
     $msgTextArea.val('');
-};
-
+    };
 
 function setTitle(title) {
     document.querySelector("h1").innerHTML = title;
@@ -68,5 +68,5 @@ function setTitle(title) {
 
 function printMessage(data) {
    
-    $chat.append('<div class="well">' + '<strong>' + data.name + '</strong>' + ':' + data.msg + '</div>');
+    $chat.append('<div class="well well-sm">' + '<strong>' + data.name + '</strong>' + ':' + data.msg + '</div>');
 }
