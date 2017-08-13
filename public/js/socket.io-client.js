@@ -1,5 +1,13 @@
 var socket = io();
-var newChat;
+var $chat;
+var $loggedInArea;
+var $loginArea;
+var $msgForm;
+var $loginForm;
+var $users;
+var $username;
+var $password;
+var $msgTextArea;
 
 socket.on("disconnect", function() {
     setTitle("Disconnected");
@@ -7,29 +15,58 @@ socket.on("disconnect", function() {
 
 socket.on("connect", function() {
     setTitle("Welcome to Chat Cube");
-     //document.querySelector("div.chat");
-    newChat = $('#chat');
+    $chat = $('#chat');
+    $loggedInArea = $('#loggedInArea');
+    $loginArea = $('#loginArea');
+    $msgTextArea = $('#msgTextArea');
+    $msgForm = $('#msgForm');
+    $loginForm = $('#loginForm');
+    $users = $('#users');
+    $username = $('#username');
+    $password = $('#password');
 });
 
-socket.on("message", function(message) {
-    printMessage(message);
+socket.on("new message", function(data) {
+    printMessage(data);
 });
 
+socket.on('get users',function(data){
+    var html ='';
+    for(i=0; i<data.length; i++){
+        html += '<li class="list-group-tems">'+ data[i] + '</li>'
+        console.log(html);
+    }
+    $users.html(html);
+
+});
+
+
+function loginFunc(){
+        
+            if($username != ''){
+                socket.emit('new user',$username.val());
+                $loggedInArea.show();
+                $loginArea.hide();
+            }
+            else
+                alert("Wrong password!");
+        
+    $username.val('');
+    
+};
 
 
 function SumbitFunc () {
-    var input = document.getElementById("message");
-    printMessage(input.value);
-    socket.emit("chat", input.value);
-    input.value = '';
+    socket.emit('chat', $msgTextArea.val());
+    $msgTextArea.val('');
 };
+
 
 function setTitle(title) {
     document.querySelector("h1").innerHTML = title;
 }
 
-function printMessage(message) {
-    var p = document.createElement("p");
-    p.innerText = message;
-    newChat.append('<div class="well">' + message + '</div>');
+function printMessage(data) {
+   
+    $chat.append('<div class="well">' + '<strong>' + data.name + '</strong>' + ':' + data.msg + '</div>');
 }

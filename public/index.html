@@ -25,29 +25,37 @@
          <h1>Chat Cube</h1>
     </div>
 
-    <div class="row">
-        <div class="col-md-4">
-            <div class="well">
-                <h3>Online Users</h3>
-                <ul class="list-group" id="users"></ul>
+    <div id="loginArea" class="row">
+        <div class="col-md-12">
+        <form id="loginForm" action="javascript:void(0)" onsubmit="loginFunc()">
+            <div class="form-group">
+                <label>Username</label>
+                <input id="username" class="form-control" type="text" name="username"><br/>
+                <label>Password</label>
+                <input id="password" class="form-control" type="text" name="password"><br/>
+                <input id="login" class="btn btn-primary" type="submit" name="login" value="Login">
             </div>
-        </div>
-        <div class="col-md-8">
-            <div class="chat" id = "chat">
-            </div>
-            <div>
-                <form id="f1" action="javascript:void(0)" onsubmit="SumbitFunc()">
-                    <textarea class="form-control" id="message" required autofocus></textarea>
-                    <input class="btn btn-primary" id="s1" type="submit" value="Submit">
-                </form>
-            </div>
-        </div>
-            
+        </form>
         </div>
     </div>
+
+    <div id="loggedInArea" class="row">
+        <div id="usersArea" class="col-md-4">
+            <div class="well">
+                <h4>Online Users</h4>
+                <ul id="users" class="list-group" ></ul>
+            </div>
+        </div>
+        <div id="chatArea" class="col-md-8">
+            <div id="chat" class="chat" ></div>
+                <form id="msgForm" action="javascript:void(0)" onsubmit="SumbitFunc()">
+                    <textarea id="msgTextArea" class="form-control" required autofocus></textarea>
+                    <input class="btn btn-primary" id="send" type="submit" value="Submit">
+                </form>
+            </div>
+        </div>   
+    </div>
 </div>
-
-
 
 
 
