@@ -1,7 +1,15 @@
 h1{
 	text-align: center;
+
 }
 #loggedInArea
 {
 	display: none;
+}
+#signUpArea
+{
+	display: none;
+}
+#a{
+	color: #FFF;
 }
