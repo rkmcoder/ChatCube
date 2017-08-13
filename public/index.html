@@ -6,14 +6,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
 	<link rel = "stylesheet" type = "text/css" href="./css/style.css"/>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/bootstrap.css">
 
     <script type="text/javascript" src="http://localhost:3000/socket.io/socket.io.js"></script>
     <script type="text/javascript" src="./js/socket.io-client.js"></script>
 
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script type="text/javascript" src="./js/bootstrap js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="./jquery/jquery-3.2.1.min.js"></script>
+
 
     <title>Chat Cube</title>
     
@@ -26,7 +26,7 @@
     </div>
 
     <div id="loginArea" class="row">
-        <div class="col-md-12">
+        <div class="col-md-12 ">
         <form id="loginForm" action="javascript:void(0)" onsubmit="loginFunc()">
             <div class="form-group">
                 <label>Username</label>
@@ -40,13 +40,13 @@
     </div>
 
     <div id="loggedInArea" class="row">
-        <div id="usersArea" class="col-md-4">
+        <div id="usersArea" class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
             <div class="well">
                 <h4>Online Users</h4>
                 <ul id="users" class="list-group" ></ul>
             </div>
         </div>
-        <div id="chatArea" class="col-md-8">
+        <div id="chatArea" class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
             <div id="chat" class="chat" ></div>
                 <form id="msgForm" action="javascript:void(0)" onsubmit="SumbitFunc()">
                     <textarea id="msgTextArea" class="form-control" required autofocus></textarea>
