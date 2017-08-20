@@ -6,10 +6,13 @@ var $msgForm;
 var $loginForm;
 var $users;
 var $username;
+var $username1;
 var $password;
+var $password1;
 var $msgTextArea;
 var $signUpArea;
 var $signUpForm;
+var $emailphone
 
 socket.on("disconnect", function() {
     setTitle("Disconnected");
@@ -32,7 +35,9 @@ socket.on("connect", function() {
     $username = $('#username');
     $password = $('#password');
 
-    $fullname = $('#fullname');
+    $username1 = $('#username1');
+    $password1 = $('#password1');
+    $emailphone = $('#emailphone');
 
     loginForm.onsubmit = function() {
        if($username.val()!='' && $password.val() == '123'){
@@ -52,10 +57,15 @@ socket.on("connect", function() {
     };
 
     signUpForm.onsubmit = function() {
-            socket.emit('new user',$fullname.val());
-            $loggedInArea.show();
-            $loginArea.hide();
-            $signUpArea.hide();
+        var loginDetails = {  
+            username : $username1.val(),
+            password : $password1.val(),
+            emailphone : $emailphone.val()
+        };         
+        socket.emit('signup new user',loginDetails);
+        $loggedInArea.show();
+        $loginArea.hide();
+        $signUpArea.hide();
     };
 
 
