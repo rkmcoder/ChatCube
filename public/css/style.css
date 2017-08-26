@@ -2,14 +2,11 @@ h1{
 	text-align: center;
 
 }
-#loggedInArea
+#loggedInArea,#signUpArea,#loginInvalid,#userExists,#login0
 {
 	display: none;
 }
-#signUpArea
-{
-	display: none;
-}
+
 #a{
 	color: #FFF;
 }

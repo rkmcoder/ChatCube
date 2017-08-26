@@ -12,7 +12,10 @@ var $password1;
 var $msgTextArea;
 var $signUpArea;
 var $signUpForm;
-var $emailphone
+var $emailphone;
+var $loginInvalid;
+var $userExists;
+var $login0;
 
 socket.on("disconnect", function() {
     setTitle("Disconnected");
@@ -39,6 +42,12 @@ socket.on("connect", function() {
     $password1 = $('#password1');
     $emailphone = $('#emailphone');
 
+    $loginInvalid = $('#loginInvalid');
+    $userExists = $('#userExists');
+
+    $login0 = $('#login0');
+    $signUp0 = $('#signUp0');
+
     loginForm.onsubmit = function() {
         var loginDetails = {  
         username : $username.val(),
@@ -46,13 +55,13 @@ socket.on("connect", function() {
         }; 
             
         socket.emit('login new user',loginDetails);
-        socket.on('login status',function(loginStatus){
-            if(loginStatus == "Correct"){
+        socket.on('login credentials',function(loginCredentials){
+            if(loginCredentials == "Correct"){
                 $loggedInArea.show();
                 $loginArea.hide();
             }
-            else{
-                alert("Enter a valid username and password!");
+            else if(loginCredentials == "Incorrect"){
+                $loginInvalid.show();
                 $password.val('');
             }
             
@@ -60,10 +69,18 @@ socket.on("connect", function() {
         
     };
 
-    document.getElementById('signUp0').onclick = function() {
+    signUp0.onclick = function() {
             $loginArea.hide();
             $loggedInArea.hide();
             $signUpArea.show();
+            $userExists.hide();
+    };
+
+    login0.onclick = function() {
+            $loginArea.show();
+            $loggedInArea.hide();
+            $signUpArea.hide();
+            $loginInvalid.hide();
     };
 
     signUpForm.onsubmit = function() {
@@ -73,9 +90,20 @@ socket.on("connect", function() {
             emailphone : $emailphone.val()
         };         
         socket.emit('signup new user',loginDetails);
-        $loggedInArea.show();
-        $loginArea.hide();
-        $signUpArea.hide();
+        socket.on('signup credentials',function(signUpCredentials){
+            if(signUpCredentials == "Correct"){
+                 $loggedInArea.show();
+                 $loginArea.hide();
+                 $signUpArea.hide();
+            }
+            else if(signUpCredentials == "Incorrect"){
+                $login0.show();
+                $userExists.show();
+                $password1.val('');
+            }
+
+        });
+       
     };
 
 

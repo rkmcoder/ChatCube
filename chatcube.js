@@ -21,7 +21,6 @@ mongo.connect("mongodb://localhost:27017/chatcube",function(err,db){
 		userscollection.find().toArray(function(err,result){
 			if(err)
 				throw err;
-			//console.log(result);
 		});
 		connections.push(socket);
 		console.log('No. of users connected %s', connections.length);
@@ -38,7 +37,7 @@ mongo.connect("mongodb://localhost:27017/chatcube",function(err,db){
 		    });
 
 		socket.on('login new user', function(data) {
-			userscollection.findOne({username:data.username,password:data.password},function(err,user){
+			userscollection.findOne({username:data.username.toLowerCase(),password:data.password},function(err,user){
 				if(err){
 					throw err;
 				}
@@ -46,12 +45,12 @@ mongo.connect("mongodb://localhost:27017/chatcube",function(err,db){
 				if(user != null){
 					socket.username = data.username;
 					socket.password = data.password;
-					socket.emit('login status',"Correct");
+					socket.emit('login credentials',"Correct");
 					users.push(socket.username);
 					updateUsers();
 				}
 				else{
-					socket.emit('login status',"Incorrect");
+					socket.emit('login credentials',"Incorrect");
 				}
 			});
 		});
@@ -63,10 +62,22 @@ mongo.connect("mongodb://localhost:27017/chatcube",function(err,db){
 				email = data.emailphone;
 			else
 				phone = data.emailphone;
-			userscollection.insert({"username":data.username, "password":data.password , "email" : email, "phone":phone});
-			socket.username = data.username;
-			users.push(socket.username);
-			updateUsers();
+
+			userscollection.findOne({username:data.username.toLowerCase()},function(err,user){
+				if(err) 
+					throw err;
+				if(user != null){
+					socket.emit('signup credentials',"Incorrect");
+				}
+				else{
+					socket.emit('signup credentials',"Correct");
+					userscollection.insert({"username":data.username.toLowerCase(), "password":data.password , "email" : email, "phone":phone});
+					socket.username = data.username;
+					users.push(socket.username);
+					updateUsers();
+				}
+			});
+			
 
 		});
 
