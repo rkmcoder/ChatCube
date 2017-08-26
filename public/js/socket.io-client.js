@@ -40,14 +40,24 @@ socket.on("connect", function() {
     $emailphone = $('#emailphone');
 
     loginForm.onsubmit = function() {
-       if($username.val()!='' && $password.val() == '123'){
-            socket.emit('new user',$username.val());
-            $loggedInArea.show();
-            $loginArea.hide();
-        }
-            else
-                alert("Enter a Username and password 123!");
-        $password.val('');
+        var loginDetails = {  
+        username : $username.val(),
+        password : $password.val()
+        }; 
+            
+        socket.emit('login new user',loginDetails);
+        socket.on('login status',function(loginStatus){
+            if(loginStatus == "Correct"){
+                $loggedInArea.show();
+                $loginArea.hide();
+            }
+            else{
+                alert("Enter a valid username and password!");
+                $password.val('');
+            }
+            
+        });
+        
     };
 
     document.getElementById('signUp0').onclick = function() {

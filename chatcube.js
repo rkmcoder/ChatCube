@@ -21,7 +21,7 @@ mongo.connect("mongodb://localhost:27017/chatcube",function(err,db){
 		userscollection.find().toArray(function(err,result){
 			if(err)
 				throw err;
-			console.log(result);
+			//console.log(result);
 		});
 		connections.push(socket);
 		console.log('No. of users connected %s', connections.length);
@@ -37,14 +37,33 @@ mongo.connect("mongodb://localhost:27017/chatcube",function(err,db){
 		    	io.sockets.emit("new message", {msg:data,name:socket.username});
 		    });
 
-		socket.on('new user', function(data) {
-			socket.username = data;
-			users.push(socket.username);
-			updateUsers();
-		    });
+		socket.on('login new user', function(data) {
+			userscollection.findOne({username:data.username,password:data.password},function(err,user){
+				if(err){
+					throw err;
+				}
+				
+				if(user != null){
+					socket.username = data.username;
+					socket.password = data.password;
+					socket.emit('login status',"Correct");
+					users.push(socket.username);
+					updateUsers();
+				}
+				else{
+					socket.emit('login status',"Incorrect");
+				}
+			});
+		});
 
 		socket.on('signup new user',function(data){
-			userscollection.insert({"username":data.username, "password":data.password , "emailphone" : data.emailphone});
+			var email;
+			var phone;
+			if(isNaN(data.emailphone))
+				email = data.emailphone;
+			else
+				phone = data.emailphone;
+			userscollection.insert({"username":data.username, "password":data.password , "email" : email, "phone":phone});
 			socket.username = data.username;
 			users.push(socket.username);
 			updateUsers();
