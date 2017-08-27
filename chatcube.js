@@ -8,14 +8,19 @@ var mongo = require("mongodb").MongoClient;
 var connections = [];
 var users =[];
 
+
 app.use(express.static("./public"));
 
 console.log("Server running...on port 3000");
 mongo.connect("mongodb://localhost:27017/chatcube",function(err,db){
-	if(err)
+	if(err){
 		throw err;
+		db.close();
+	}
 	console.log("Connected to Mongodb");
 	var userscollection = db.collection('users');
+	var chatroom = db.collection('chatroom');
+	var counter = db.collection('counter');
 
 		io.sockets.on('connect', function(socket){
 		userscollection.find().toArray(function(err,result){
@@ -34,6 +39,7 @@ mongo.connect("mongodb://localhost:27017/chatcube",function(err,db){
 
 		socket.on('chat', function(data) {
 		    	io.sockets.emit("new message", {msg:data,name:socket.username});
+		    	chatroom.insert({"msgId":getNextSequence("msgId"), "from":socket.username, "message":data,"datetime":new Date()});
 		    });
 
 		socket.on('login new user', function(data) {
@@ -82,12 +88,24 @@ mongo.connect("mongodb://localhost:27017/chatcube",function(err,db){
 		});
 
 		function updateUsers(){
-			io.sockets.emit('get users',users);
+			io.sockets.emit('set users',users);
 		}
 
 		});
-	//db.close();
+    function getNextSequence(name) {
+	    var ret = counter.findAndModify(
+	          {
+	            query: { _id: name },
+	            update: { $inc: { seq: 1 } },
+	            new: true,
+	            remove: false
+	          });
+
+	    return ret.seq;
+	}
 });
+
+
 
 
 

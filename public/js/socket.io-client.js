@@ -48,6 +48,22 @@ socket.on("connect", function() {
     $login0 = $('#login0');
     $signUp0 = $('#signUp0');
 
+    signUp0.onclick = function() {
+            $loginArea.hide();
+            $loggedInArea.hide();
+            $signUpArea.show();
+            $userExists.hide();
+            $password1.val('');
+    };
+
+    login0.onclick = function() {
+            $loginArea.show();
+            $loggedInArea.hide();
+            $signUpArea.hide();
+            $loginInvalid.hide();
+            $password.val('');
+    };
+
     loginForm.onsubmit = function() {
         var loginDetails = {  
         username : $username.val(),
@@ -67,20 +83,6 @@ socket.on("connect", function() {
             
         });
         
-    };
-
-    signUp0.onclick = function() {
-            $loginArea.hide();
-            $loggedInArea.hide();
-            $signUpArea.show();
-            $userExists.hide();
-    };
-
-    login0.onclick = function() {
-            $loginArea.show();
-            $loggedInArea.hide();
-            $signUpArea.hide();
-            $loginInvalid.hide();
     };
 
     signUpForm.onsubmit = function() {
@@ -120,7 +122,7 @@ socket.on("new message", function(data) {
     printMessage(data);
 });
 
-socket.on('get users',function(data){
+socket.on('set users',function(data){
     var html ='';
     for(i=0; i<data.length; i++){
         html += '<li class="list-group-item">'+ data[i] + '</li>'
